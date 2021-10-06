@@ -26,7 +26,7 @@ const UserList = ({ users, isLoading }) => {
         <CheckBox value="DE" label="Germany" />
       </S.Filters>
       <S.List>
-        {users.map((user, index) => {
+        {users.filter().map((user, index) => {
           return (
             <S.User
               key={index}

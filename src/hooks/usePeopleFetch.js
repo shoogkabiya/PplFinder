@@ -13,6 +13,7 @@ export const usePeopleFetch = () => {
     setIsLoading(true);
     const response = await axios.get(`https://randomuser.me/api/?results=25&page=1`);
     setIsLoading(false);
+    console.log("response:", response);
     setUsers(response.data.results);
   }
 
