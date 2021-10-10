@@ -1,23 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useRef, useEffect, useState } from "react";
 import Text from "components/Text";
 import UserList from "components/UserList";
 import { usePeopleFetch } from "hooks";
 import * as S from "./style";
 
 const Home = () => {
-  const [checkboxvalues, setCheckValues] = useState({
-    BR: false,
-    AU: false,
-    CA: false,
-    DE: false,
-    TR: false,
-  });
-  const { users, isLoading } = usePeopleFetch(checkboxvalues);
+  const { users, isLoading, fetchUsers } = usePeopleFetch();
+  const [pageNumber, setPageNumber] = useState(1);
+  const controller = useRef();
 
-  const changeCountry = (value, isChecked) => {
-    setCheckValues({ ...checkboxvalues, [value]: !isChecked });
-    console.log("home after filter:", checkboxvalues[value]);
-  };
+  useEffect(() => {
+    if (pageNumber > 1) fetchUsers(pageNumber * 25);
+  }, [pageNumber]);
+
+  const lastUserRef = useCallback(
+    (node) => {
+      if (isLoading) return;
+      if (controller.current) controller.current.disconnect();
+      controller.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          setPageNumber((previous) => previous + 1);
+        }
+      });
+      if (node) controller.current.observe(node);
+    },
+    [isLoading]
+  );
 
   return (
     <S.Home>
@@ -27,12 +35,7 @@ const Home = () => {
             PplFinder
           </Text>
         </S.Header>
-        <UserList
-          users={users}
-          isLoading={isLoading}
-          changeCountry={changeCountry}
-          checkboxvalues={checkboxvalues}
-        />
+        <UserList users={users} isLoading={isLoading} lastUserRef={lastUserRef} />
       </S.Content>
     </S.Home>
   );
