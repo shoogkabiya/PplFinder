@@ -1,4 +1,4 @@
-to see my new app click on the the link:https://shoogkabiya.github.io/PplFinder/#/
+to see Deploy my app click on the the link:https://shoogkabiya.github.io/PplFinder/#/
 
 # Ppl Finder
 
