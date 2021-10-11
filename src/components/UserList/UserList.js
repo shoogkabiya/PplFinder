@@ -116,7 +116,7 @@ const UserList = ({ users, isLoading, getListFavorite, lastPersonRef }) => {
             <FavoriteIcon style={{ marginBottom: "-5px" }} color="error" />
           </div>
         ) : (
-          !isLoading && <span>No person favorite</span>
+          !isLoading && <span>No person </span>
         )}
         {isLoading && (
           <S.SpinnerWrapper>
