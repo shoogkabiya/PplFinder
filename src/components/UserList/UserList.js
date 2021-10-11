@@ -7,7 +7,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import * as S from "./style";
 import { SetItem as SetLS, GetItem as GetLS } from "shared/localStorage-theassistant";
 
-const UserList = ({ users, isLoading, getListFavorite, lastUserRef }) => {
+const UserList = ({ users, isLoading, getListFavorite, lastPersonRef }) => {
   const [hoveredUserId, setHoveredUserId] = useState();
   const [usersToShow, setUsersToShow] = useState(users);
   const [listfavorites, setListFavorites] = useState([]);
@@ -17,11 +17,11 @@ const UserList = ({ users, isLoading, getListFavorite, lastUserRef }) => {
     if (users && users.length)
       if (listfilters.length) {
         console.log("filters:", listfilters);
-        let arraylistFavorite = [];
+        let arraylistFilter = [];
         users.map((user) => {
-          if (listfilters.includes(user.nat)) arraylistFavorite.push(user);
+          if (listfilters.includes(user.nat)) arraylistFilter.push(user);
         });
-        setUsersToShow(arraylistFavorite);
+        setUsersToShow(arraylistFilter);
       } else {
         setUsersToShow(users);
       }
@@ -85,7 +85,7 @@ const UserList = ({ users, isLoading, getListFavorite, lastUserRef }) => {
                 key={index}
                 onMouseEnter={() => handleMouseEnter(index)}
                 onMouseLeave={handleMouseLeave}
-                ref={index === usersToShow.length - 1 ? lastUserRef : null}
+                ref={index === usersToShow.length - 1 ? lastPersonRef : null}
               >
                 <S.UserPicture src={user?.picture.large} alt="" />
                 <S.UserInfo>
@@ -112,7 +112,7 @@ const UserList = ({ users, isLoading, getListFavorite, lastUserRef }) => {
           })
         ) : getListFavorite && !listfilters.length ? (
           <div>
-            <span>{"To add a favorite click on the icon in the page Home"}</span>
+            <span>{"To add a favorite click on the icon heart in the page Home"}</span>
             <FavoriteIcon style={{ marginBottom: "-5px" }} color="error" />
           </div>
         ) : (
